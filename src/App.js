@@ -1,25 +1,41 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+let totalNum = 0;
+
+class App extends Component {
+  getRandonNumber = (start, range) => {
+    let getRandom = Math.floor((Math.random() * range) +start);
+    console.log("Roll", getRandom);
+    return getRandom;
+  }
+
+  sumNumber = () => {
+    totalNum += (this.getRandonNumber(1,6));
+    if (totalNum > 30) {
+      let score = document.getElementById("score");
+      score.style.visibility = "hidden";
+    }
+    console.log("Running total", totalNum);
+    return totalNum;
+  }
+
+render() {
+    return ( 
+      <React.Fragment>
+          <div><p>
+              <span>Score: </span><span>{this.totalNum}</span>
+          </p></div>
+          <div><button id="score" onClick={() => this.sumNumber()}>Add</button></div>
+          <div><p>
+              <span>Roll: </span><span>{this.getRandon}</span>
+          </p></div>
+      </React.Fragment>
+      );
+  }
 }
+
+// {this.sumNumber()}
+// {this.getRandonNumber(1,6)}
 
 export default App;
