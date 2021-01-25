@@ -1,38 +1,29 @@
-import React, { Component } from 'react';
+import React, { } from 'react'
 import './App.css';
 
-class App extends Component {
-  state = { totalNum: 0, getRandom: 0 }
-  
-  getRandonNumber = (start, range) => {
-    this.setState({getRandom: Math.floor((Math.random() * range) +start), });
-    console.log("Roll", this.state.getRandom);
-    return this.state.getRandom;
-  }
+// Luke's version of the roll dice code with my addition of the roll number valie
 
-  sumNumber = () => {
-    this.setState({totalNum: this.state.totalNum + this.getRandonNumber(1,6), });
-    if (this.state.totalNum > 30) {
-      let score = document.getElementById("score");
-      score.style.visibility = "hidden";
-    }
-    console.log("Running total", this.state.totalNum);
-    return this.state.totalNum;
-  }
+export default class AppClass extends React.Component {
+  state = { playerPosition: 0,   roll: 0 }
 
-render() {
-    return ( 
-      <React.Fragment>
-          <div><p>
-              <span>Score: </span><span>{this.state.totalNum}</span>
-          </p></div>
-          <div><button id="score" onClick={() => this.sumNumber()}>Add</button></div>
-          <div><p>
-              <span>Roll: </span><span>{this.state.getRandom}</span>
-          </p></div>
-      </React.Fragment>
-      );
+  onRoll = () => {
+    let newRoll = Math.floor(Math.random() * 6) + 1;
+    console.log("Roll", newRoll);
+    this.setState((oldState) => ({
+      roll: newRoll,
+      playerPosition: Math.min(oldState.playerPosition + newRoll, 30)
+    }))
+  };
+
+  render = () => {
+    const isGameDone = this.state.playerPosition >= 30;
+    console.log("Total", this.state.playerPosition);
+    return (
+      <div>
+        <div><span>Roll: </span><span>{this.state.roll}</span></div>
+         <div><span>Total: </span><span>{this.state.playerPosition}</span></div>
+        { isGameDone ? null : <button onClick={this.onRoll}>Dice</button> }
+      </div>
+    );
   }
 }
-
-export default App;

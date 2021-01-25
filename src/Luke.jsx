@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react'
 
+// Luke's version of the roll dice code
+
 const gameWinningPosition = 30;
 
 export default class AppClass extends React.Component {
