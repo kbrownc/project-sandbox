@@ -1,30 +1,16 @@
 import React, { Component } from 'react';
 import './App.css'; 
 
-// Kim's version of the roll dice code with the roll number valie (doesn't work)
+// Kim's version of the roll dice code with the roll number value (with Luke's mods)
 
 class App extends Component {
   state = { totalNum: 0, getRandom: 0 }
-  
-  getRandonNumber = (start, range) => {
-    this.setState(prevState => 
-          ({getRandom: Math.floor((Math.random() * range) + start)}),
-          (() => {console.log("Roll", this.state.getRandom)})
-      );
-    return this.state.getRandom;
-  };
 
    sumNumber = () => {
-    this.setState(prevState => ({totalNum: prevState.totalNum + this.getRandonNumber(1,6) }))
-    return this.state.totalNum
-  };
-
-  sumNumberM = () => {
-    this.sumNumber();
-    if (this.state.totalNum > 30) {
-      let score = document.getElementById("score");
-      score.style.visibility = "hidden";
-    } 
+    let newRoll = Math.floor(Math.random() * 6) + 1;
+    this.setState((prevState) => ({
+      totalNum: prevState.totalNum + newRoll, 
+      getRandom: newRoll }))
   };
 
 render() {
@@ -37,7 +23,7 @@ render() {
           <div><p>
               <span>Score: </span><span>{this.state.totalNum}</span>
           </p></div>
-          <div><button id="score" onClick={() => this.sumNumberM()}>Add</button></div>
+          <div><button id="score" onClick={() => this.sumNumber()}>Add</button></div>
           <div><p>
               <span>Roll: </span><span>{this.state.getRandom}</span>
           </p></div>
