@@ -1,30 +1,25 @@
-import React from 'react';
-import {AsyncStorage,} from 'react';
+import React, { useState, useEffect } from "react";
 import './App.css';
-import DATA from './ZonAnn.Ts+dSST.csv';
 
-
+// // read-in a url and return JSON data
 function App() {
-  async function getData() {
-    const response = await fetch(DATA);
-    const data = await response.text();
-     const table = data.split('\n').slice(1); 
-     table.forEach(row => {
-      const columns = row.split(',');
-      const year = columns[0];
-      const temp = columns[1];
-      console.log(year, temp);
-     })
-  };
-  // // process a CSV file
-  getData();
+  const [lat, setlat] = useState("");
+  const [long, setlong] = useState("");
+
+  useEffect( () => {
+    fetch("https://api.wheretheiss.at/v1/satellites/25544")
+      .then((response) => response.json())
+      .then((data) => {
+        setlat(data.latitude);
+        setlong(data.longitude);
+        console.log(data);
+      })
+  }, []);
   return (
-    <div className="Alert">
-      <h2>Processing CSV file</h2>
-      <div id="buttons">
-        <p>CSV Data</p>
-        <div></div>
-      </div>
+    <div>
+      <div>ISS Location in Space</div>
+      <div>Longitude: {long}</div>
+      <div>Latitude: {lat}</div>
     </div>
   );
 }
