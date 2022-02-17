@@ -1,25 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { VscThreeBars } from "react-icons/vsc";
+import { orderBy } from "lodash";
+import { playlistData } from './playlist.js';
 import './App.css';
 
-// // read-in a url and return JSON data
-function App() {
-  const [lat, setlat] = useState("");
-  const [long, setlong] = useState("");
 
-  useEffect( () => {
-    fetch("https://api.wheretheiss.at/v1/satellites/25544")
-      .then((response) => response.json())
-      .then((data) => {
-        setlat(data.latitude);
-        setlong(data.longitude);
-        console.log(data);
-      })
-  }, []);
+// Practicing Beautiful DND (drop and drag)
+
+function App() {
+
+  const [playlist, setPlaylist] = useState(playlistData);
+
+  const listRenderer = orderBy(playlist, "position").map((item) => (
+    <div className="list-container-text" key={item.id}>
+      <a className="handle">
+        <VscThreeBars />
+      </a>
+      <div>
+        <img src={item.thumb} width="50%"/>
+      </div>
+      <div>
+        {item.position} - {item.title}
+      </div>
+      <div>{item.artist}</div>
+      <div>{item.released}</div>
+    </div>
+  ));
+
   return (
-    <div>
-      <div>ISS Location in Space</div>
-      <div>Longitude: {long}</div>
-      <div>Latitude: {lat}</div>
+    <div className="list-container">
+      {listRenderer}
     </div>
   );
 }
