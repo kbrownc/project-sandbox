@@ -33,10 +33,11 @@ function App() {
   const onDragEnd = result => {
     // access where the task was initially and where it was dropped
     const { destination, source } = result;
-    // make sure there is a change
+    // make sure there is a change (moved item outside of draggable context area)
     if (!destination || !source) {
       return;
     }
+    // make sure there is a change (moved item and returned i to same place)
     if (destination.droppableId === source.droppableId && destination.index === source.index) {
       return;
     }
